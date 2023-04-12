@@ -11,13 +11,15 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
-
+import com.dal.dao.EmployeeDao;
+import com.dal.dao.EmployeeDaoImpl;
 import com.dal.model.Employee;
+
 
 public class EmployeeController implements EmployeeInterface {
 	Employee emp;
 	List<Employee> emplist = new ArrayList<Employee>();
-	
+	EmployeeDao dao = new EmployeeDaoImpl();
 	public void addEmployee()
 	{		
 		emp = new Employee();
@@ -30,9 +32,32 @@ public class EmployeeController implements EmployeeInterface {
 		String ename= sc.next();
 		emp.setEname(ename);
 		emplist.add(emp);
+		dao.insertEmployee(emp);
 		System.out.println("Employee Added Succesfully");
 	}
 	
+	public void updateByEid()
+	{		
+		emp = new Employee();
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter Eid");
+		int eid= sc.nextInt();
+		emp.setEid(eid);
+		
+		System.out.println("Enter Ename");
+		String ename= sc.next();
+		emp.setEname(ename);
+		//emplist.add(emp);
+		dao.updateEmployee(emp);
+		System.out.println("Employee update Succesfully");
+	}
+	public void deleteByEid() {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter Eid");
+		int eid= sc.nextInt();
+		dao.deleteEmployee(eid);
+		System.out.println("Employee Delete Succesfully");
+	}
 	public void viewEmployee() {
 		//System.out.println(emp);
 		/*
@@ -41,6 +66,7 @@ public class EmployeeController implements EmployeeInterface {
 			System.out.println(i.next());
 		}*/
 		System.out.println("View Employee");
+		dao.showEmployee();
 		emplist.forEach(emp->System.out.println(emp));
 		//Another way
 		emplist.forEach(System.out::println);
