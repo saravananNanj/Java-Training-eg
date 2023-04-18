@@ -49,3 +49,22 @@ begin
         end loop;
     dbms_output.put_line(number1 || ' Reverse Number : ' || result1);
 end;
+
+-- Cursor with parameters example
+
+declare
+    emprec emp%rowtype;
+    CURSOR c_emp (job1 VARCHAR2, job2 VARCHAR2)
+    IS
+        select * from emp where job in(job1,job2);
+   
+begin
+    open c_emp('MANAGER','ANALYST');
+    loop
+    fetch c_emp into emprec;
+    exit when c_emp%NOTFOUND;    
+    dbms_output.put_line(emprec.empno || '     ' || emprec.ename || '    ' || emprec.deptno || '    ' || emprec.sal || '    ' || emprec.job); 
+    end loop;
+    close c_emp;
+end;
+
